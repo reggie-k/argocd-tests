@@ -9,7 +9,7 @@ spec:
     namespace: kuku
     server: 'https://kubernetes.default.svc'
   source:
-    path: api
+    path: manifests/nginx
     repoURL: 'https://github.com/reggie-k/argocd-tests.git'
     targetRevision: main
   syncPolicy:
