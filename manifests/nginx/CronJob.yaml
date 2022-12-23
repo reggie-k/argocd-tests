@@ -6,7 +6,7 @@ metadata:
     gu: gu
     kuku: ttt
 spec:
-  schedule: "0 * * * *"
+  schedule: "* * * * *"
   jobTemplate:
     spec:
       template:
