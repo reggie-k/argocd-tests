@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hello-27863954
+  namespace: kuku
+  ownerReferences:
+    - apiVersion: batch/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: CronJob
+      name: hello
+      uid: fc401e6e-cc90-468b-8ce0-03ae0684333f
+spec:
+  suspend: false
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        job-name: hello-27863954
+    spec:
+      containers:
+        - command:
+            - /bin/sh
+            - '-c'
+            - date; echo Hello from the Kubernetes cluster
+          image: 'busybox:1.28'
+          imagePullPolicy: IfNotPresent
+          name: hello
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      restartPolicy: OnFailure
