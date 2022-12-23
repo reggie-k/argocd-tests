@@ -3,13 +3,6 @@ kind: Job
 metadata:
   name: hello-27863954
   namespace: kuku
-#  ownerReferences:
-#    - apiVersion: batch/v1
-#      blockOwnerDeletion: true
-#      controller: true
-#      kind: CronJob
-#      name: hello
-#      uid: fc401e6e-cc90-468b-8ce0-03ae0684333f
 spec:
   suspend: false
   template:
