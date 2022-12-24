@@ -18,7 +18,4 @@ spec:
           image: 'busybox:1.28'
           imagePullPolicy: IfNotPresent
           name: hello
-          resources: {}
-          terminationMessagePath: /dev/termination-log
-          terminationMessagePolicy: File
       restartPolicy: OnFailure
