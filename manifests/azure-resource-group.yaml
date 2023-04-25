@@ -1,0 +1,12 @@
+apiVersion: azure.upbound.io/v1beta1
+kind: ResourceGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: devtestlab/v1beta1/globalvmshutdownschedule
+    uptest.upbound.io/pre-delete-hook: testhooks/delete-network.sh
+  labels:
+    testing.upbound.io/example-name: example
+  name: gvmssexample
+spec:
+  forProvider:
+    location: West Europe
