@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: test
+  namespace: argocd
+spec:
+  generators:
+  - clusters: {}
+  template:
+    metadata:
+      name: '{{cluster}}-test'
+    spec:
+      project: default
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+      source:
+        path: empty-for-appset
+        repoURL: 'https://github.com/reggie-k/argocd-tests.git'
+        targetRevision: main
+      destination:
+        server: '{{url}}'
+        namespace: kuku
