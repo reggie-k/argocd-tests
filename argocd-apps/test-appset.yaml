@@ -8,7 +8,7 @@ spec:
   - clusters: {}
   template:
     metadata:
-      name: '{{cluster}}-test'
+      name: '{{name}}-test'
     spec:
       project: default
       syncPolicy:
@@ -20,5 +20,5 @@ spec:
         repoURL: 'https://github.com/reggie-k/argocd-tests.git'
         targetRevision: main
       destination:
-        server: '{{url}}'
+        server: '{{server}}'
         namespace: kuku
