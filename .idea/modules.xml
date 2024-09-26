@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../argo-cd/.idea/argo-cd.iml" filepath="$PROJECT_DIR$/../argo-cd/.idea/argo-cd.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/argocd-tests.iml" filepath="$PROJECT_DIR$/.idea/argocd-tests.iml" />
     </modules>
   </component>
