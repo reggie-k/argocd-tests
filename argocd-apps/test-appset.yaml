@@ -8,7 +8,7 @@ spec:
   - clusters: {}
   template:
     metadata:
-      name: '{{name}}-test'
+      name: '{{name}}-nginx'
     spec:
       project: default
       syncPolicy:
@@ -16,9 +16,9 @@ spec:
           prune: true
           selfHeal: true
       source:
-        path: empty-for-appset
+        path: manifests/nginx
         repoURL: 'https://github.com/reggie-k/argocd-tests.git'
         targetRevision: main
       destination:
         server: '{{server}}'
-        namespace: kuku
+        namespace: nginx
