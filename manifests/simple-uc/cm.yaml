@@ -1,4 +1,4 @@
-apiVersion: v1
+apiVersion: ggg
 data:
   myKey1: myValue1
   mykey2: myValue2
