@@ -1,4 +1,4 @@
-apiVersion: kukumuku
+apiVersion: v1
 data:
   myKey1: myValue1
   mykey2: myValue2
