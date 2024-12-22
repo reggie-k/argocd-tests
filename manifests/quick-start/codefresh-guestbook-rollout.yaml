@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: codefresh-guestbook-rollout
+spec:
+  replicas: 4
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: codefresh-guestbook
+  template:
+    metadata:
+      labels:
+        app: codefresh-guestbook
+    spec:
+      containers:
+        - image: gcr.io/heptio-images/ks-guestbook-demo:0.1
+          name: codefresh-guestbook
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+  minReadySeconds: 30
+  strategy:
+    canary:
+      steps:
+        - setWeight: 25
+        - pause: {duration: 20s}
+        - setWeight: 75
+        - pause: {duration: 15s}

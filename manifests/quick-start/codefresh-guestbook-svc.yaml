@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: codefresh-guestbook-svc
+spec:
+  ports:
+    - port: 8080
+      targetPort: 80
+  selector:
+    app: codefresh-guestbook # must be the same as the selector defined in rollouts.yaml
+  type: LoadBalancer
