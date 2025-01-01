@@ -10,5 +10,5 @@ spec:
       containers:
         - name: sleep
           image: busybox
-          command: ["sleep", "15"]
+          command: ["sleep", "300"]
       restartPolicy: Never
