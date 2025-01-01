@@ -5,5 +5,5 @@ data:
   a1: a2
 kind: ConfigMap
 metadata:
-  name: my-cm2
+  name: my-cm3
   namespace: kuku
