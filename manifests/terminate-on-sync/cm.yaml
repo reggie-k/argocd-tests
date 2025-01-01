@@ -2,7 +2,7 @@ apiVersion: v1
 data:
   myKey1: myValue1
   mykey2: myValue2
-  a1: a8
+  a1: a9
 kind: ConfigMap
 metadata:
   name: my-cm2
