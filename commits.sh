@@ -2,21 +2,40 @@
 
 # Configuration
 #TOKEN="your_github_token"          # Replace with your GitHub personal access token
-#USERNAME="todaywasawesome"  
-#USERNAME="reggie-k"
-#USERNAME="revitalbarletz"
-#USERNAME="kostis-codefresh" 
-USERNAME="pasha-codefresh" # Replace with your GitHub username
-REPO="argoproj/argo-cd"                  # Replace with the repository (e.g., argo-cd/argo-cd)
-#REPO="argoproj/argo-rollouts" 
-START_DATE=$(date -u -v-28d +"%Y-%m-%dT%H:%M:%SZ")  # 14 days ago in UTC
+USERS_ARGO_CD=("todaywasawesome" "reggie-k" "revitalbarletz")
+USERS_ARGO_ROLLOUTS=("kostis-codefresh")
+START_DATE=$(date -u -v-14d +"%Y-%m-%dT%H:%M:%SZ")  # 14 days ago in UTC
 END_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")          # Current date in UTC
 
-# Fetch commits from the repository in the given date range
-COMMITS_URL="https://api.github.com/repos/$REPO/commits?author=$USERNAME&since=$START_DATE&until=$END_DATE"
-COMMITS=$(curl -s -H "Authorization: token $TOKEN" "$COMMITS_URL" | jq -r '.[]')
+# Initialize total commit count
+TOTAL_COMMIT_COUNT=0
 
-# Count the number of commits
-COMMIT_COUNT=$(echo "$COMMITS" | jq -r '. | length')
+# Function to fetch and count commits for a given user and repository
+fetch_and_count_commits() {
+    local USERNAME=$1
+    local REPO=$2
 
-echo "Commits authored in the last week: $COMMIT_COUNT"
+    # Fetch commits from the repository in the given date range
+    COMMITS_URL="https://api.github.com/repos/$REPO/commits?author=$USERNAME&since=$START_DATE&until=$END_DATE"
+    COMMITS=$(curl -s -H "Authorization: token $TOKEN" "$COMMITS_URL")
+
+    # Count the number of commits
+    COMMIT_COUNT=$(echo "$COMMITS" | jq -r '. | length')
+
+    # Add to total commit count
+    TOTAL_COMMIT_COUNT=$((TOTAL_COMMIT_COUNT + COMMIT_COUNT))
+
+    echo "Commits authored by $USERNAME in $REPO: $COMMIT_COUNT"
+}
+
+# Loop through each user for argoproj/argo-cd repository
+for USERNAME in "${USERS_ARGO_CD[@]}"; do
+    fetch_and_count_commits "$USERNAME" "argoproj/argo-cd"
+done
+
+# Loop through each user for argoproj/argo-rollouts repository
+for USERNAME in "${USERS_ARGO_ROLLOUTS[@]}"; do
+    fetch_and_count_commits "$USERNAME" "argoproj/argo-rollouts"
+done
+
+echo "Total commits authored in the last 14 days: $TOTAL_COMMIT_COUNT"
