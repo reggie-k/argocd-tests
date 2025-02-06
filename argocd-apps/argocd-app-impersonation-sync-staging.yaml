@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: guestbook-staging
+  namespace: argocd
+spec:
+  project: impersonation-sync
+  destination:
+    namespace: guestbook-staging
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: manifests/impersonation-sync/guestbook-staging
+    repoURL: 'https://github.com/reggie-k/argocd-tests.git'
+    targetRevision: main
+  syncPolicy:
+    automated:
+      selfHeal: true    

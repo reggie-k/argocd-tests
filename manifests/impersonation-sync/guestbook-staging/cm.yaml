@@ -1,0 +1,7 @@
+apiVersion: v1
+data:
+  myKey: myValue
+kind: ConfigMap
+metadata:
+  name: guestbook-staging-cm
+  namespace: guestbook-staging

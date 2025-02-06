@@ -1,36 +1,45 @@
 #!/bin/bash
 
 # Configuration
-#TOKEN=""    # Replace with your GitHub personal access token
-#USERNAME="kostis-codefresh" # Replace with your GitHub username
-USERNAME="reggie-k"
-#USERNAME="revitalbarletz"
-#USERNAME="todaywasawesome"
-#USERNAME="pasha-codefresh"
-#REPO="argoproj/argo-rollouts" 
-REPO="argoproj/argo-cd" 
-           # Replace with the repository (e.g., argo-cd/argo-cd)
-START_DATE=$(date -u -v-28d +"%Y-%m-%dT%H:%M:%SZ")  # 14 days ago
-END_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")          # Current date
+#TOKEN="your_github_token"    # Replace with your GitHub personal access token
+USERS_ARGO_CD=("reggie-k" "revitalbarletz" "todaywasawesome" "pasha-codefresh")
+USER_ARGO_ROLLOUTS="kostis-codefresh"
+REPO_ARGO_CD="argoproj/argo-cd"
+REPO_ARGO_ROLLOUTS="argoproj/argo-rollouts"
+START_DATE=$(date -u -v-14d +"%Y-%m-%dT%H:%M:%SZ")  # 14 days ago in UTC
+END_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")          # Current date in UTC
 
-# Fetch all pull requests from the repository
-PR_URL="https://api.github.com/repos/$REPO/pulls?state=all&per_page=100"
-PRS=$(curl -s -H "Authorization: token $TOKEN" "$PR_URL" | jq -r '.[].url')
+# Function to count reviews for a given user and repository
+count_reviews() {
+    local USERNAME=$1
+    local REPO=$2
 
-REVIEWED_COUNT=0
+    # Fetch all PRs in the repository
+    PRS=$(curl -s -H "Authorization: token $TOKEN" "https://api.github.com/repos/$REPO/pulls?state=all&per_page=100")
 
-# Iterate over each PR to fetch reviews
-for PR in $PRS; do
-  REVIEWS_URL="$PR/reviews"
-  REVIEWS=$(curl -s -H "Authorization: token $TOKEN" "$REVIEWS_URL")
-  
-  # Check if the user has reviewed and filter by date
-  REVIEW_MATCH=$(echo "$REVIEWS" | jq -r --arg USERNAME "$USERNAME" --arg START_DATE "$START_DATE" --arg END_DATE "$END_DATE" \
-    '.[] | select(.user.login == $USERNAME and (.submitted_at >= $START_DATE and .submitted_at <= $END_DATE))')
-  
-  if [[ -n "$REVIEW_MATCH" ]]; then
-    ((REVIEWED_COUNT++))
-  fi
+    # Initialize review count
+    REVIEW_COUNT=0
+
+    # Iterate over each PR
+    for PR_NUMBER in $(echo "$PRS" | jq -r '.[].number'); do
+        # Fetch reviews for the PR
+        REVIEWS=$(curl -s -H "Authorization: token $TOKEN" "https://api.github.com/repos/$REPO/pulls/$PR_NUMBER/reviews")
+
+        # Count reviews by the user within the date range
+        COUNT=$(echo "$REVIEWS" | jq -r --arg USERNAME "$USERNAME" --arg START_DATE "$START_DATE" --arg END_DATE "$END_DATE" '
+            map(select(.user.login == $USERNAME and (.submitted_at >= $START_DATE and .submitted_at <= $END_DATE))) | length')
+
+        # Add to the total review count
+        REVIEW_COUNT=$((REVIEW_COUNT + COUNT))
+    done
+
+    echo "Pull requests reviewed by $USERNAME in $REPO: $REVIEW_COUNT"
+}
+
+# Count reviews for the user in argoproj/argo-rollouts
+count_reviews "$USER_ARGO_ROLLOUTS" "$REPO_ARGO_ROLLOUTS"
+
+# Count reviews for each user in argoproj/argo-cd
+for USERNAME in "${USERS_ARGO_CD[@]}"; do
+    count_reviews "$USERNAME" "$REPO_ARGO_CD"
 done
-
-echo "Pull requests reviewed: $REVIEWED_COUNT"

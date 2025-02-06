@@ -1,0 +1,13 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: impersonation-sync
+  namespace: argocd
+spec:
+  destinationServiceAccounts:
+  - defaultServiceAccount: guestbook-staging-sa
+    namespace: guestbook-staging
+    server: https://kubernetes.default.svc
+  - defaultServiceAccount: guestbook-dev-sa
+    namespace: guestbook-dev
+    server: https://kubernetes.default.svc
