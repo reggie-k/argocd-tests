@@ -1,15 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: impersonation-sync
+  name: none-impersonation-sync
   namespace: argocd
 spec:
   destinations:
-  - namespace: guestbook-dev
+  - namespace: guestbook-staging
     server: https://kubernetes.default.svc
-  destinationServiceAccounts:
-  - defaultServiceAccount: guestbook-dev-sa
-    namespace: guestbook-dev
-    server: https://kubernetes.default.svc
+  namespaceResourceWhitelist:
+  - group: 'apps'
+    kind: Deployment
   sourceRepos:
   - 'https://github.com/reggie-k/argocd-tests.git'          
