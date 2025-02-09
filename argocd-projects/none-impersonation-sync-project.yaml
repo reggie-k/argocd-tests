@@ -5,10 +5,18 @@ metadata:
   namespace: argocd
 spec:
   destinations:
-  - namespace: guestbook-staging
+  - namespace: guestbook-dev
     server: https://kubernetes.default.svc
   namespaceResourceWhitelist:
   - group: 'apps'
     kind: Deployment
+  - group: ''
+    kind: Service
+  - group: 'apps'
+    kind: ReplicaSet  
+  - group: 'apps'
+    kind: StatefulSet 
+  - group: 'apps'
+    kind: DaemonSet 
   sourceRepos:
   - 'https://github.com/reggie-k/argocd-tests.git'          
