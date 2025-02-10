@@ -8,4 +8,4 @@ metadata:
   name: my-cm4
   namespace: kuku
   annotations: 
-    argocd.argoproj.io/sync-options: Delete = confirm
+    argocd.argoproj.io/sync-options: Prune = confirm
