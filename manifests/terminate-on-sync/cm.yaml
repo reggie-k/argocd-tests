@@ -5,7 +5,7 @@ data:
   a1: a1
 kind: ConfigMap
 metadata:
-  name: my-cm3
+  name: my-cm4
   namespace: kuku
   annotations: 
     argocd.argoproj.io/sync-options: Delete = confirm
