@@ -4,6 +4,7 @@ metadata:
   name: codefresh-guestbook-svc
   labels: 
     kuku: muku
+    muku: kuku
 spec:
   ports:
     - port: 8080
