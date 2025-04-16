@@ -1,0 +1,7 @@
+apiVersion: v1
+data:
+  a: b
+kind: 123ConfigMap
+metadata:
+  name: my-invalid-cm
+  namespace: kuku
