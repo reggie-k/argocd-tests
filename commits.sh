@@ -4,7 +4,8 @@
 #TOKEN="your_github_token"          # Replace with your GitHub personal access token
 USERS_ARGO_CD=("todaywasawesome" "reggie-k" "revitalbarletz" "kostis-codefresh" "pasha-codefresh")
 USERS_ARGO_ROLLOUTS=("kostis-codefresh")
-START_DATE=$(date -u -v-28d +"%Y-%m-%dT%H:%M:%SZ")  # 14 days ago in UTC
+DAYS_NUM="28"  
+START_DATE=$(date -u -v-"$DAYS_NUM"d +"%Y-%m-%dT%H:%M:%SZ")  # days ago in UTC
 END_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")          # Current date in UTC
 
 # Initialize total commit count
@@ -38,4 +39,4 @@ for USERNAME in "${USERS_ARGO_ROLLOUTS[@]}"; do
     fetch_and_count_commits "$USERNAME" "argoproj/argo-rollouts"
 done
 
-echo "Total commits authored in the last 14 days: $TOTAL_COMMIT_COUNT"
+echo "Total commits authored in the last $DAYS_NUM days: $TOTAL_COMMIT_COUNT"

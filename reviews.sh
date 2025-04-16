@@ -6,7 +6,8 @@ USERS_ARGO_CD=("reggie-k" "revitalbarletz" "todaywasawesome" "pasha-codefresh")
 USER_ARGO_ROLLOUTS="kostis-codefresh"
 REPO_ARGO_CD="argoproj/argo-cd"
 REPO_ARGO_ROLLOUTS="argoproj/argo-rollouts"
-START_DATE=$(date -u -v-14d +"%Y-%m-%dT%H:%M:%SZ")  # 14 days ago in UTC
+DAYS_NUM="28"  
+START_DATE=$(date -u -v-"$DAYS_NUM"d +"%Y-%m-%dT%H:%M:%SZ")  # days ago in UTC
 END_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")          # Current date in UTC
 
 # Function to count reviews for a given user and repository
