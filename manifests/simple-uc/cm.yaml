@@ -4,4 +4,3 @@ data:
 kind: ConfigMap
 metadata:
   name: my-cm
-  namespace: kuku

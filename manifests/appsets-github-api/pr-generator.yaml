@@ -1,0 +1,57 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: pr-generator
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+  - pullRequest:
+      github:
+        # The GitHub organization or user.
+        owner: reggie-k
+        # The Github repository
+        repo: argocd-tests
+        # For GitHub Enterprise (optional)
+        # api: https://git.example.com/
+        # # Reference to a Secret containing an access token. (optional)
+        # tokenRef:
+        #   secretName: github-token
+        #   key: token
+        # # (optional) use a GitHub App to access the API instead of a PAT.
+        # appSecretName: github-app-repo-creds
+        # Labels is used to filter the PRs that you want to target. (optional)
+        labels:
+        - preview
+      # requeueAfterSeconds: 1800
+  template:
+   metadata:
+      annotations:
+        # argocd.argoproj.io/manifest-generate-paths: apps/{{ .values.appName }}/stage/preview
+        github_repo: '{{ .repository }}'
+        pr_head_sha: '{{ .head_sha }}'
+        pr_number: '{{ .number }}'
+      labels:
+        app: '{{ .values.appName }}'
+        environment: stage
+      name: '{{ .values.appName }}--pr-{{ .number }}'
+    spec:
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{ .values.appName }}--pr-{{ .number }}'
+      project: 'default'
+      source:
+        path: manifests/simple-uc
+        repoURL: https://github.com/reggie-k/argocd-tests.git
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - PrunePropagationPolicy=foreground
+        - Replace=false
+        - PruneLast=false
+        - Validate=true
+        - ApplyOutOfSyncOnly=false
+        - PreserveResourcesOnDeletion=false
+        - CreateNamespace=true  
