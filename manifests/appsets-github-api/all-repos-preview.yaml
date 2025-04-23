@@ -1,0 +1,79 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  labels:
+    app.kubernetes.io/instance: apps-isc
+  name: all-repos-preview
+  # namespace: codefresh
+  namespace: argocd
+spec:
+  generators:
+  - matrix:
+      generators:
+      - scmProvider:
+          cloneProtocol: https
+          filters:
+          - labelMatch: codefresh-stage-previews
+          github:
+            allBranches: false
+            organization: containers101
+          values:
+            appName: '{{- $appName := .repository }}{{- $topics := splitList "," .labels
+              }}{{- range $topic := $topics }}{{- $parts := splitList "--" $topic
+              }}{{- if and (eq (len $parts) 2) (eq (first $parts) "codefresh-stage-previews-name")
+              }}{{- $appName = last $parts }}{{- end }}{{- end }}{{- $appName }}'
+      - pullRequest:
+          github:
+            labels:
+            - preview
+            owner: containers101
+            repo: '{{ .repository }}'
+          requeueAfterSeconds: 60
+  goTemplate: true
+  template:
+    metadata:
+      annotations:
+        # argocd.argoproj.io/manifest-generate-paths: apps/{{ .values.appName }}/stage/preview
+        github_repo: '{{ .repository }}'
+        pr_head_sha: '{{ .head_sha }}'
+        pr_number: '{{ .number }}'
+      labels:
+        app: '{{ .values.appName }}'
+        environment: stage
+      name: '{{ .values.appName }}--pr-{{ .number }}'
+    spec:
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{ .values.appName }}--pr-{{ .number }}'
+      project: 'default'
+      source:
+        helm:
+          parameters:
+          - name: global.nameSuffix
+            value: pr-{{ .number }}
+          - name: global.image.tag
+            value: pr-{{ .number }}--{{ printf "%.7s" .head_short_sha }}
+          - name: global.versionOverride
+            value: pr-{{ .number }}--{{ printf "%.7s" .head_short_sha }}
+          - name: argocdAppName
+            value: $ARGOCD_APP_NAME
+          - name: global.environment
+            value: stage
+          - name: global.cluster.name
+            value: apps
+          - name: global.cluster.region
+            value: us-east-1      
+        path: preview-environments/kustomize-preview-app
+        repoURL: https://github.com/codefresh-contrib/gitops-cert-level-3-examples
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - PrunePropagationPolicy=foreground
+        - Replace=false
+        - PruneLast=false
+        - Validate=true
+        - ApplyOutOfSyncOnly=false
+        - PreserveResourcesOnDeletion=false
+        - CreateNamespace=true  
