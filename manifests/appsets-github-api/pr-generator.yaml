@@ -19,30 +19,31 @@ spec:
         #   secretName: github-token
         #   key: token
         # # (optional) use a GitHub App to access the API instead of a PAT.
-        # appSecretName: github-app-repo-creds
+        # appSecretName: repo-4246007479
         # Labels is used to filter the PRs that you want to target. (optional)
         labels:
         - preview
-      requeueAfterSeconds: 20
+      requeueAfterSeconds: 5
   template:
     metadata:
       annotations:
         # argocd.argoproj.io/manifest-generate-paths: apps/{{ .values.appName }}/stage/preview
-        github_repo: '{{ .repository }}'
+      
         pr_head_sha: '{{ .head_sha }}'
         pr_number: '{{ .number }}'
       labels:
-        app: '{{ .values.appName }}'
+        app: 'simple-uc-pr'
         environment: stage
-      name: '{{ .values.appName }}--pr-{{ .number }}'
+      name: 'simple-uc-pr'
     spec:
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{ .values.appName }}--pr-{{ .number }}'
+        namespace: 'simple-uc-pr-{{ .number }}'
       project: 'default'
       source:
         path: manifests/simple-uc
         repoURL: https://github.com/reggie-k/argocd-tests.git
+        targetRevision: '{{.branch}}'
       syncPolicy:
         automated:
           prune: true
