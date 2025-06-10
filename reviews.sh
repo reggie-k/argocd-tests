@@ -2,7 +2,7 @@
 
 # Configuration
 #TOKEN="your_github_token"    # Replace with your GitHub personal access token
-USERS_ARGO_CD=("reggie-k" "revitalbarletz" "todaywasawesome" "pasha-codefresh")
+USERS_ARGO_CD=("reggie-k" "revitalbarletz" "todaywasawesome" "pasha-codefresh" "dudinea")
 USER_ARGO_ROLLOUTS="kostis-codefresh"
 REPO_ARGO_CD="argoproj/argo-cd"
 REPO_ARGO_ROLLOUTS="argoproj/argo-rollouts"
