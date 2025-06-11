@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: pr-and-git-generator
+  namespace: argocd
+spec:
+  goTemplate: true
+  generators:
+    - matrix:
+        generators:
+          - git:
+              directories:
+                - path: manifests/appset-folder-tree/*
+              repoURL: https://github.com/reggie-k/argocd-tests.git
+              revision: HEAD
+          - pullRequest:
+              github:
+                owner: reggie-k
+                repo: '{{index .path.segments 1 }}'

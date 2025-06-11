@@ -7,23 +7,25 @@ spec:
   goTemplateOptions: ["missingkey=error"]
   generators:
   - pullRequest:
-      github:
-        # The GitHub organization or user.
-        owner: reggie-k
-        # The Github repository
-        repo: argocd-tests
-        # For GitHub Enterprise (optional)
-        # api: https://git.example.com/
-        # # Reference to a Secret containing an access token. (optional)
-        # tokenRef:
-        #   secretName: github-token
-        #   key: token
-        # # (optional) use a GitHub App to access the API instead of a PAT.
-        # appSecretName: repo-4246007479
-        # Labels is used to filter the PRs that you want to target. (optional)
-        labels:
-        - preview
-      requeueAfterSeconds: 5
+      # github:
+      #   # The GitHub organization or user.
+      #   owner: reggie-k
+      #   # The Github repository
+      #   repo: argocd-tests11111
+ 
+      #   # tokenRef:
+      #   #   secretName: github-token
+      #   #   key: token
+      #   # appSecretName: repo-4246007479
+      #   # Labels is used to filter the PRs that you want to target. (optional)
+      #   labels:
+      #   - preview
+      # requeueAfterSeconds: 5
+
+      gitlab:
+   
+        project: regina.voloshin-project123
+
   template:
     metadata:
       annotations:
