@@ -1,0 +1,53 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: pr-and-git-generator-gitea
+  namespace: argocd
+spec:
+  goTemplate: true
+  generators:
+    - matrix:
+        generators:
+          - git:
+              directories:
+                - path: manifests/appset-folder-tree/*
+              repoURL: https://github.com/reggie-k/argocd-tests.git
+              revision: HEAD
+          - pullRequest:
+              continueOnRepoNotFoundError: true
+              github:
+                owner: reggie-k
+                repo: '{{index .path.segments 1 }}'
+                tokenRef:
+                  secretName: github-token
+                  key: token
+  template:
+    metadata:
+      annotations:
+        pr_head_sha: '{{ .head_sha }}'
+        pr_number: '{{ .number }}'
+      labels:
+        app: 'pr-and-git-generator'
+        environment: stage
+      name: 'pr-and-git-generator-{{ .number }}'
+    spec:
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: 'pr-and-git-generator'
+      project: 'default'
+      source:
+        path: manifests/simple-uc
+        repoURL: https://github.com/reggie-k/{{ .repo }}.git
+        targetRevision: '{{.branch}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - PrunePropagationPolicy=foreground
+        - Replace=false
+        - PruneLast=false
+        - Validate=true
+        - ApplyOutOfSyncOnly=false
+        - PreserveResourcesOnDeletion=false
+        - CreateNamespace=true  

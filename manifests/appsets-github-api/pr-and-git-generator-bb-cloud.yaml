@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: pr-and-git-generator
+  name: pr-and-git-generator-bb-cloud
   namespace: argocd
 spec:
   goTemplate: true
@@ -14,9 +14,13 @@ spec:
               repoURL: https://github.com/reggie-k/argocd-tests.git
               revision: HEAD
           - pullRequest:
+              continueOnRepoNotFoundError: true
               github:
                 owner: reggie-k
                 repo: '{{index .path.segments 1 }}'
+                tokenRef:
+                  secretName: github-token
+                  key: token
   template:
     metadata:
       annotations:
