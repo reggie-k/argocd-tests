@@ -16,14 +16,14 @@ spec:
           - pullRequest:
               continueOnRepoNotFoundError: true
               gitlab:
-                project: test-argocd-proton/{{index .path.segments 1 }}'
+                project: 'test-argocd-proton/{{ index .path.segments 2 }}'
   template:
     metadata:
       annotations:
         pr_head_sha: '{{ .head_sha }}'
         pr_number: '{{ .number }}'
       labels:
-        app: 'pr-and-git-generator'
+        app: 'pr-and-git-generator-gitlab'
         environment: stage
       name: 'pr-and-git-generator-gitlab-{{ .number }}'
     spec:
