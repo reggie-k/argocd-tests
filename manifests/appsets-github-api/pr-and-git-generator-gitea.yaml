@@ -14,7 +14,7 @@ spec:
               repoURL: https://github.com/reggie-k/argocd-tests.git
               revision: HEAD
           - pullRequest:
-              continueOnRepoNotFoundError: true
+              continueOnRepoNotFoundError: false
               gitea:
                 owner: test-argocd
                 repo: '{{index .path.segments 1 }}'

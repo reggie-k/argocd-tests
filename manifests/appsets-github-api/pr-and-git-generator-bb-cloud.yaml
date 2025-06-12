@@ -15,8 +15,8 @@ spec:
               revision: HEAD
           - pullRequest:
               continueOnRepoNotFoundError: true
-              github:
-                owner: reggie-k
+              bitbucket:
+                project: atlassian_tutorial
                 repo: '{{index .path.segments 1 }}'
                 tokenRef:
                   secretName: github-token
@@ -29,7 +29,7 @@ spec:
       labels:
         app: 'pr-and-git-generator'
         environment: stage
-      name: 'pr-and-git-generator-{{ .number }}'
+      name: 'pr-and-git-generator-bb-cloud{{ .number }}'
     spec:
       destination:
         server: https://kubernetes.default.svc
