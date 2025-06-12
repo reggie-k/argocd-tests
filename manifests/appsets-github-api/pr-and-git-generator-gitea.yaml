@@ -18,9 +18,7 @@ spec:
               gitea:
                 owner: test-argocd
                 repo: '{{index .path.segments 1 }}'
-                tokenRef:
-                  secretName: github-token
-                  key: token
+                api: https://gitea.com
   template:
     metadata:
       annotations:
