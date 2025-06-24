@@ -16,11 +16,9 @@ spec:
           - pullRequest:
               continueOnRepoNotFoundError: true
               bitbucket:
-                project: atlassian_tutorial
-                repo: '{{index .path.segments 1 }}'
-                tokenRef:
-                  secretName: github-token
-                  key: token
+                owner: atlassian_tutorial
+                repo: '{{index .path.segments 2 }}'
+      
   template:
     metadata:
       annotations:
