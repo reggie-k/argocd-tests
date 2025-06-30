@@ -10,5 +10,5 @@ spec:
       containers:
         - name: some-job
           image: busybox
-          command: ["sleep", "10"]
+          command: ["sleep", "9"]
       restartPolicy: Never
