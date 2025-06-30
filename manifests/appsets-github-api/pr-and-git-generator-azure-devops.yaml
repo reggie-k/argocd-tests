@@ -15,19 +15,23 @@ spec:
               revision: HEAD
           - pullRequest:
               continueOnRepoNotFoundError: true
-              azureDevOps:
-                organization: 'reginavoloshin'
-                project: 'reggie-test'
+              azuredevops:
+                organization: 'reginavoloshin0790'
+                project: '{{ index .path.segments 2 }}'
                 repo: '{{ index .path.segments 2 }}'
+                tokenRef:
+                  secretName: azure-devops-token
+                  key: token
+              
   template:
     metadata:
       annotations:
         pr_head_sha: '{{ .head_sha }}'
         pr_number: '{{ .number }}'
       labels:
-        app: 'pr-and-git-generator-gitlab'
+        app: 'pr-and-git-generator-azure-devops'
         environment: stage
-      name: 'pr-and-git-generator-gitlab-{{ .number }}'
+      name: 'pr-and-git-generator-azure-devops-{{ .number }}'
     spec:
       destination:
         server: https://kubernetes.default.svc

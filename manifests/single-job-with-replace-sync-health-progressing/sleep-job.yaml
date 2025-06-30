@@ -1,0 +1,14 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: some-job
+  annotations:
+    argocd.argoproj.io/sync-options: Force=true,Replace=true
+spec:
+  template:
+    spec:
+      containers:
+        - name: some-job
+          image: busybox
+          command: ["echo", "hello"]
+      restartPolicy: Never
