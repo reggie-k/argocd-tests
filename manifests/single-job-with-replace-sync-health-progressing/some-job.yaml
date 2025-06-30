@@ -3,12 +3,12 @@ kind: Job
 metadata:
   name: some-job
   annotations:
-    argocd.argoproj.io/sync-options: Force=true
+    # argocd.argoproj.io/sync-options: Force=true
 spec:
   template:
     spec:
       containers:
         - name: some-job
           image: busybox
-          command: ["sleep", "1000"]
+          command: ["sleep", "10"]
       restartPolicy: Never
