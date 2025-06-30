@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: single-job-with-replace-sync-health-progressing
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    namespace: kuku
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: manifests/single-job-with-replace-sync-health-progressing
+    repoURL: 'https://github.com/reggie-k/argocd-tests.git'
+    targetRevision: main
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true    
