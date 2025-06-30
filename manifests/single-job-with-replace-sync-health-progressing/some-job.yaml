@@ -9,6 +9,6 @@ spec:
     spec:
       containers:
         - name: some-job
-          image: busybox
+          image: busybox:unstable-musl
           command: ["sleep", "9"]
       restartPolicy: Never
