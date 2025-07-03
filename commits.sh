@@ -2,7 +2,7 @@
 
 # Configuration
 #TOKEN="your_github_token"          # Replace with your GitHub personal access token
-USERS_ARGO_CD=("todaywasawesome" "reggie-k" "revitalbarletz" "kostis-codefresh" "pasha-codefresh" "dudinea")
+USERS_ARGO_CD=("todaywasawesome" "reggie-k" "revitalbarletz" "kostis-codefresh" "pasha-codefresh" "dudinea" "ppapapetrou76")
 USERS_ARGO_ROLLOUTS=("kostis-codefresh")
 DAYS_NUM="28"  
 START_DATE=$(date -u -v-"$DAYS_NUM"d +"%Y-%m-%dT%H:%M:%SZ")  # days ago in UTC
