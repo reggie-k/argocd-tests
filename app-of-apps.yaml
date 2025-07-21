@@ -6,12 +6,13 @@ metadata:
 spec:
   project: default
   destination:
-    namespace: kuku
+    namespace: argocd
     server: 'https://kubernetes.default.svc'
   source:
-    path: argocd-apps
+    path: child-apps
     repoURL: 'https://github.com/reggie-k/argocd-tests.git'
     targetRevision: main
   syncPolicy:
     automated:
       selfHeal: true  
+      prune: true

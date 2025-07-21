@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: simple-uc
   namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   destination:
@@ -13,5 +15,7 @@ spec:
     repoURL: 'https://github.com/reggie-k/argocd-tests.git'
     targetRevision: main
   syncPolicy:
+    automated:
+      selfHeal: true    
     syncOptions:
       - CreateNamespace=true      
