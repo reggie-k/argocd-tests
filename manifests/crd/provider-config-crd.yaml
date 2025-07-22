@@ -48,6 +48,8 @@ spec:
           spec:
             description: A ProviderConfigSpec defines the desired state of a ProviderConfig.
             properties:
+              kuku: 
+                type: string
               assumeRole:
                 description: AssumeRole defines the options for assuming an IAM role
                 properties:
