@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: crd
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  destination:
+    namespace: kuku
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: manifests/crd
+    repoURL: 'https://github.com/reggie-k/argocd-tests.git'
+    targetRevision: main
+  syncPolicy:
+    automated:
+      selfHeal: true    
+    syncOptions:
+      - CreateNamespace=true      
+
