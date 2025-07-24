@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: test-create-ns
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/reggie-k/argocd-tests.git'
+    path: manifests/test-create-ns
+  destination:
+    server: 'https://kubernetes.default.svc'
+    # uncomment this, and the sync will work
+    #namespace: test-hello-world
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
