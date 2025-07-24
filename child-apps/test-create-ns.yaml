@@ -11,7 +11,7 @@ spec:
   destination:
     server: 'https://kubernetes.default.svc'
     # uncomment this, and the sync will work
-    #namespace: test-hello-world
+    namespace: test-hello-world2
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
