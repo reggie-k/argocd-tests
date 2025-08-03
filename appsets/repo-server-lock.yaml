@@ -10,12 +10,14 @@ spec:
         repoURL: 'https://github.com/reggie-k/argocd-tests.git'
         revision: 'main'
         files:
-          - path: 'dev/*/Chart.yaml'
+          - path: 'manifests/repo-server-lock/dev/*/Chart.yaml'
   template:
     metadata:
       name: '{{.path.basename}}-dev'
       finalizers:
         - resources-finalizer.argocd.argoproj.io/foreground
+      annotations:
+        codefresh.io/product: 'repo-server-lock'
     spec:
       project: default
       destination:

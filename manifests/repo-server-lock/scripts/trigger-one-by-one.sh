@@ -8,11 +8,11 @@ fi
 
 versions=("1.28.0" "1.27.5" "1.26.3" "1.25.5" "1.24.0" "1.23.4" "1.14.0" "1.14.2")
 
-apps=("app1" "app2" "app3" "app4")
-
+#apps=("app1" "app2" "app3" "app4" "app5" "app6" "app7" "app8" "app9" "app10")
+apps=("app1")
 for app in "${apps[@]}"; do
-    deploymentPath="$SCRIPT_DIR/../dev/$app/templates/deployment.yaml"
-    chartPath="$SCRIPT_DIR/../dev/$app/Chart.yaml"
+    deploymentPath="/Users/codefresh/GolandProjects/argocd-tests/manifests/repo-server-lock/dev/$app/templates/deployment.yaml"
+    chartPath="/Users/codefresh/GolandProjects/argocd-tests/manifests/repo-server-lock/dev/$app/Chart.yaml"
 
     currentVersion=`cat "$deploymentPath" | grep "image: nginx" | sed -ne "s/.*\([0-9]\.[0-9][0-9].[0-9]\).*/\1/p"`
     echo "$app currentVersion: '${currentVersion}'"
@@ -43,6 +43,12 @@ for app in "${apps[@]}"; do
         git add "$SCRIPT_DIR/../dev"
         git commit -m "promote all!"
         git push
+
+     
     fi
 done
 
+for app in "${apps[@]}"; do
+    echo "syncing $app-dev"
+    # ~/GolandProjects/codefresh-io/argo-cd/dist/argocd app sync $app-dev
+done
