@@ -66,3 +66,8 @@ if [[ $noGitMode == false ]]; then
   git commit -m "promote all!"
   git push
 fi
+
+for app in "${apps[@]}"; do
+    echo "syncing $app-dev"
+    argocd app sync $app-dev &
+done

@@ -8,8 +8,7 @@ fi
 
 versions=("1.28.0" "1.27.5" "1.26.3" "1.25.5" "1.24.0" "1.23.4" "1.14.0" "1.14.2")
 
-#apps=("app1" "app2" "app3" "app4" "app5" "app6" "app7" "app8" "app9" "app10")
-apps=("app1")
+apps=("app1" "app2" "app3" "app4" "app5" "app6" "app7" "app8" "app9" "app10")
 for app in "${apps[@]}"; do
     deploymentPath="/Users/codefresh/GolandProjects/argocd-tests/manifests/repo-server-lock/dev/$app/templates/deployment.yaml"
     chartPath="/Users/codefresh/GolandProjects/argocd-tests/manifests/repo-server-lock/dev/$app/Chart.yaml"
@@ -50,5 +49,5 @@ done
 
 for app in "${apps[@]}"; do
     echo "syncing $app-dev"
-    # ~/GolandProjects/codefresh-io/argo-cd/dist/argocd app sync $app-dev
+    argocd app sync $app-dev
 done
