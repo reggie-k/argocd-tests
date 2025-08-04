@@ -1,5 +1,0 @@
-base:
-  version: 1.14.0
-  rollout: true
-  strategy:
-    canary: {}
