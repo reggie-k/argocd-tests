@@ -7,10 +7,10 @@ spec:
   goTemplateOptions: ["missingkey=error"]
   generators:
     - git:
-        repoURL: 'https://github.com/reggie-k/argocd-tests.git'
+        repoURL: 'https://github.com/codefresh-io/reggie-sdlc-automated-test-apps.git'
         revision: 'main'
         files:
-          - path: 'manifests/repo-server-lock/dev/*/Chart.yaml'
+          - path: 'repo-server-lock/dev/*/Chart.yaml'
   template:
     metadata:
       name: '{{.path.basename}}-dev'
@@ -27,7 +27,7 @@ spec:
         helm:
           releaseName: '{{.path.basename}}-dev-release'
         path: '{{.path.path}}'
-        repoURL: 'https://github.com/reggie-k/argocd-tests.git'
+        repoURL: 'https://github.com/codefresh-io/reggie-sdlc-automated-test-apps.git'
         targetRevision: main
       syncPolicy:
         automated:
