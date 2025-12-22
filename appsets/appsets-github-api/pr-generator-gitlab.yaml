@@ -1,0 +1,48 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: pr-generator-gitlab
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+  - pullRequest:
+      gitlab:
+        project: "76835793"
+        tokenRef:
+          secretName: gitlab-token
+          key: token
+#      requeueAfterSeconds: 5
+
+  template:
+    metadata:
+      annotations:
+        # argocd.argoproj.io/manifest-generate-paths: apps/{{ .values.appName }}/stage/preview
+      
+        pr_head_sha: '{{ .head_sha }}'
+        pr_number: '{{ .number }}'
+      labels:
+        app: 'simple-uc-pr'
+        environment: stage
+      name: 'simple-uc-pr'
+    spec:
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: 'simple-uc-pr-{{ .number }}'
+      project: 'default'
+      source:
+        path: manifests/simple-cm
+        repoURL: https://gitlab.com/regina.voloshin/argocd-test.git
+        targetRevision: '{{.branch}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - PrunePropagationPolicy=foreground
+        - Replace=false
+        - PruneLast=false
+        - Validate=true
+        - ApplyOutOfSyncOnly=false
+        - PreserveResourcesOnDeletion=false
+        - CreateNamespace=true  
