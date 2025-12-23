@@ -1,0 +1,14 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  generateName: sleep-job
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+spec:
+  template:
+    spec:
+      containers:
+        - name: sleep
+          image: busybox
+          command: ["echo", "hello"]
+      restartPolicy: Never
