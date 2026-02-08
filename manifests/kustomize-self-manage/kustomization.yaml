@@ -4,4 +4,4 @@ kind: Kustomization
 namespace: argocd
 
 resources:
-- https://raw.githubusercontent.com/pjiang-dev/argo-cd/pjiang/fix-csa-migration/manifests/install.yaml
+- https://raw.githubusercontent.com/reggie-k/argo-cd/pjiang/fix-csa-migration/manifests/install.yaml
