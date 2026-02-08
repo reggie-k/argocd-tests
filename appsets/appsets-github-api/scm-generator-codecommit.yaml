@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: scm-generator-codecommit
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+  - scmProvider:
+      cloneProtocol: https
+      awsCodeCommit:
+        region: us-east-1
+        allBranches: true
+        tagFilters:
+          - key: kukuku
+            value: mumumu
+  template:
+    metadata:
+      name: 'simple-uc-scm-{{.repository}}-{{.branch}}'
+    spec:
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: 'simple-uc-scm-{{.branch}}'
+      project: 'default'
+      source:
+        path: manifests/simple-uc
+        repoURL:  '{{ .url }}' 
+        targetRevision: '{{.branch}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - PrunePropagationPolicy=foreground
+        - Replace=false
+        - PruneLast=false
+        - Validate=true
+        - ApplyOutOfSyncOnly=false
+        - PreserveResourcesOnDeletion=false
+        - CreateNamespace=true  
