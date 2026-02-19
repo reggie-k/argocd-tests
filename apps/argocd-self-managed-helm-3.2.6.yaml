@@ -1,0 +1,32 @@
+# Application that lets Argo CD manage its own installation (Argo CD app 3.2.6 via chart 9.3.7).
+# Application name must be "argocd" so the Helm release name is argocd and rendered resources
+# get app.kubernetes.io/instance=argocd, matching the bootstrap install (same selector as Services).
+# Apply this after the initial Argo CD is running (see README or bootstrap steps).
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    namespace: argocd
+    server: https://kubernetes.default.svc
+  source:
+    repoURL: https://argoproj.github.io/argo-helm
+    chart: argo-cd
+    # Chart version 9.3.7 has appVersion v3.2.6 (use 9.3.5 or 9.3.6 for same app version)
+    targetRevision: "9.3.7"
+    helm:
+      values: |
+        fullnameOverride: argocd
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
+#        global:
+#          image: 
+#            repository: reginavoloshin/argocd  # set your custom image repo
+#            tag: ssa                             # set your custom image tag
