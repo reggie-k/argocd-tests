@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: slow-terminating
+  labels:
+    app: slow-terminating
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: slow-terminating
+  template:
+    metadata:
+      labels:
+        app: slow-terminating
+    spec:
+      terminationGracePeriodSeconds: 900
+      containers:
+        - name: app
+          image: busybox:1.36
+          command: ["/bin/sh", "-c", "sleep infinity"]
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sh", "-c", "sleep 600"]
