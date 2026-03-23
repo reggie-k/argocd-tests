@@ -13,6 +13,6 @@ spec:
     server: https://kubernetes.default.svc
     namespace: kuku
   syncPolicy:
-    # automated:
-    #   prune: false
+    automated:
+      prune: false
     #   selfHeal: true
