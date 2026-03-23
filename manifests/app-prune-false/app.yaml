@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app-prune-false
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/reggie-k/argocd-tests.git'
+    targetRevision: main
+    path: manifests/simple-uc
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kuku
+  syncPolicy:
+    automated:
+      prune: false
