@@ -22,6 +22,7 @@ spec:
   template:
     spec:
       serviceAccountName: my-service-account
+      restartPolicy: Never
       containers:
         - name: my-container
           image: busybox

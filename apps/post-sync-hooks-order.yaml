@@ -9,15 +9,9 @@ spec:
     repoURL: 'https://github.com/reggie-k/argocd-tests.git'
     targetRevision: main
     path: manifests/post-sync-hooks-order
-    helm:
-      parameters:
-        - name: image.repository
-          value: nginx
-        - name: image.tag
-          value: "latest"
   destination:
     server: https://kubernetes.default.svc
-    namespace: default
+    namespace: kuku
   syncPolicy:
     automated:
       prune: true
