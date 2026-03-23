@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: 'https://github.com/reggie-k/argocd-tests.git'
     targetRevision: main
-    path: manifests/app-of-apps-prune
+    path: manifests/app-prune-false
   destination:
     server: https://kubernetes.default.svc
     namespace: kuku
