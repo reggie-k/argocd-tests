@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: terminatingReplicas
+  name: terminating-replicas
   namespace: argocd
 spec:
   project: default

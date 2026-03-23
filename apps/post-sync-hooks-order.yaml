@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: post-sync-hooks-order
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/reggie-k/argocd-tests.git'
+    targetRevision: main
+    path: manifests/post-sync-hooks-order
+    helm:
+      parameters:
+        - name: image.repository
+          value: nginx
+        - name: image.tag
+          value: "latest"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: false
+    syncOptions:
+      - CreateNamespace=true 
