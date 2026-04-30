@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: tracking-respect-ignore-diff
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/reggie-k/argocd-tests.git'
+    targetRevision: main
+    path: manifests/tracking-respect-ignore-diff
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kuku
+  ignoreDifferences:
+  - group: "argoproj.io"
+    kind: "Rollout"
+    jsonPointers:
+    - /spec/replicas
+
+  syncPolicy:
+    syncOptions:
+    - RespectIgnoreDifferences=true
+    automated:
+      prune: true
+      selfHeal: false
