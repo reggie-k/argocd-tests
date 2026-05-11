@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: multi-source-one-source-ref
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: .
+spec:
+  project: default
+  sources:
+    - repoURL: https://github.com/reggie-k/argocd-tests.git
+      targetRevision: main
+      path: manifests/simple-uc
+      #ref: kuku
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kuku
+  #syncPolicy:
+  #  automated:
+  #    prune: true
+  #    selfHeal: true
+  #  syncOptions:
+  #    - CreateNamespace=true
