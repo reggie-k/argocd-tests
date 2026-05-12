@@ -3,5 +3,5 @@ data:
   myKey4: myValue4
 kind: ConfigMap
 metadata:
-  name: my-cm
+  name: my-cm-2
   namespace: default
