@@ -1,5 +1,5 @@
-alertmanager:
-  baseURL: 'http://localhost:1111'
+rbac:
+  create: 'false'
 base:
   version: 1.28.0
   rollout: true
