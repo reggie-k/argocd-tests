@@ -1,3 +1,4 @@
+alertmanager.baseURL: http://localhost:1111
 base:
   version: 1.28.0
   rollout: true
