@@ -1,6 +1,5 @@
-prometheus:
-  rbac:
-    create: 'false'
+rbac:
+    create: "false"
 base:
   version: 1.28.0
   rollout: true
